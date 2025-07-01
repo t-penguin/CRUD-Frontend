@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import AddCampus from "./AddCampus";
 
 const AllCampuses = ({ API_URL }) => {
   const [campuses, setCampuses] = useState([]);
@@ -43,6 +44,7 @@ const AllCampuses = ({ API_URL }) => {
       ) : (
         <p>No campuses available</p>
       )}
+      <AddCampus />
     </div>
   );
 };
