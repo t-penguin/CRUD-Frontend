@@ -15,10 +15,9 @@ const App = () => {
         <img className="react-logo" src="/react-logo.svg" alt="React Logo" />
 
         <Routes>
-          <Route path="/" element= {<HomePage />} />
+          <Route path="/" element={<HomePage />} />
           <Route path="/campuses" element={<AllCampuses />} />
           <Route path="/students" element={<AllStudents />} />
-      
         </Routes>
       </div>
     </div>
