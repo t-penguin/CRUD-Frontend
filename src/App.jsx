@@ -3,6 +3,8 @@ import { createRoot } from "react-dom/client";
 import "./AppStyles.css";
 import NavBar from "./components/NavBar";
 import { BrowserRouter as Router, Routes } from "react-router";
+import AllCampuses from "./components/allCampuses";
+import AllStudents from "./components/allStudents";
 
 const App = () => {
   return (
@@ -12,7 +14,11 @@ const App = () => {
         <h1>Hello React!</h1>
         <img className="react-logo" src="/react-logo.svg" alt="React Logo" />
 
-        <Routes>{/* Currently, we don't have any routes defined */}</Routes>
+        <Routes>
+          <Route path="/campuses" element={<AllCampuses />} />
+          <Route path="/students" element={<AllStudents />} />
+        
+        </Routes>
       </div>
     </div>
   );
