@@ -10,7 +10,7 @@ import HomePage from "./components/homePage";
 import AddCampus from "./components/AddCampus";
 import SingleCampus from "./components/SingleCampus";
 
-const API_URL = "http://localhost:8080";
+const API_URL = "https://crud-backend-black-kappa.vercel.app";
 const App = () => {
   const [campuses, setCampuses] = useState([]);
 
@@ -24,6 +24,7 @@ const App = () => {
   }
 
   useEffect(() => {
+    /*
     const sampleCampuses = [
       {
         id: 1,
@@ -41,7 +42,8 @@ const App = () => {
         description: "Sample Description",
       },
     ];
-    //setCampuses(sampleCampuses);
+    setCampuses(sampleCampuses);
+    */
     fetchAllCampuses();
   }, []);
 
