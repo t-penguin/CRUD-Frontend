@@ -1,13 +1,52 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { createRoot } from "react-dom/client";
 import "./AppStyles.css";
 import NavBar from "./components/NavBar";
+import axios from "axios";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import AllCampuses from "./components/allCampuses";
 import AllStudents from "./components/allStudents";
 import HomePage from "./components/homePage";
+import AddCampus from "./components/AddCampus";
+import SingleCampus from "./components/SingleCampus";
 
+const API_URL = "https://crud-backend-black-kappa.vercel.app";
 const App = () => {
+  const [campuses, setCampuses] = useState([]);
+
+  async function fetchAllCampuses() {
+    try {
+      const response = await axios.get(`${API_URL}/api/campuses`);
+      setCampuses(response.data);
+    } catch (e) {
+      console.error("Error fetching campuses: ", e);
+    }
+  }
+
+  useEffect(() => {
+    /*
+    const sampleCampuses = [
+      {
+        id: 1,
+        name: "BMCC",
+        imageURL:
+          "https://bmccprodstroac.blob.core.windows.net/uploads/2024/08/schools.jpg",
+        address: "199 Chambers St.",
+        description: "Sample Description",
+      },
+      {
+        id: 2,
+        name: "Brooklyn College",
+        imageURL: "",
+        address: "2900 Bedford Avenue",
+        description: "Sample Description",
+      },
+    ];
+    setCampuses(sampleCampuses);
+    */
+    fetchAllCampuses();
+  }, []);
+
   return (
     <div>
       <NavBar />
@@ -15,10 +54,28 @@ const App = () => {
         <img className="react-logo" src="/react-logo.svg" alt="React Logo" />
 
         <Routes>
-          <Route path="/" element= {<HomePage />} />
-          <Route path="/campuses" element={<AllCampuses />} />
+          <Route path="/" element={<HomePage />} />
+          <Route
+            path="/campuses"
+            element={
+              <AllCampuses
+                campuses={campuses}
+                API_URL={API_URL}
+                fetchAllCampuses={fetchAllCampuses}
+              />
+            }
+          />
           <Route path="/students" element={<AllStudents />} />
-      
+          <Route
+            path="/add-campus"
+            element={
+              <AddCampus
+                fetchAllCampuses={fetchAllCampuses}
+                API_URL={API_URL}
+              />
+            }
+          />
+          <Route path="/campuses/:id" element={<SingleCampus />} />
         </Routes>
       </div>
     </div>
