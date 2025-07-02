@@ -1,7 +1,7 @@
 import React from "react";
 
-const SingleCard = () => {
-  return;
+const SingleCampus = () => {
+  return <div></div>;
 };
 
-export default SingleCard;
+export default SingleCampus;

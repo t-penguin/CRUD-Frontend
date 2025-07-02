@@ -20,7 +20,6 @@ const CampusCard = ({ campus }) => {
           </h3>
         </div>
         <p>Address: {campus.address}</p>
-        <p>Description: {campus.description}</p>
       </div>
     </div>
   );

@@ -1,3 +1,8 @@
+.campuses-header {
+  display: flex;
+  justify-content: space-between;
+}
+
 .campus-card-container {
   background-color: #ddd;
   padding: 1rem;
