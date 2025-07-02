@@ -7,6 +7,8 @@ import AllCampuses from "./components/allCampuses";
 import AllStudents from "./components/allStudents";
 import HomePage from "./components/homePage";
 import AddStudent from "./components/addStudent";
+import SingleStudent from "./components/singleStudent";
+
 
 const App = () => {
   const [students, setStudents] = useState([
@@ -25,6 +27,8 @@ const App = () => {
           <Route path="/campuses" element={<AllCampuses />} />
           <Route path="/students" element={<AllStudents students={students} />} />
           <Route path="/addStudent" element={<AddStudent students={students} setStudents={setStudents} />} />
+          <Route path="/students/:studentId" element={<SingleStudent students={students} setStudents={setStudents} />} />
+
         </Routes>
       </div>
     </div>
