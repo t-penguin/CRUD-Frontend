@@ -20,7 +20,6 @@ const App = () => {
     <div>
       <NavBar />
       <div className="app">
-        <img className="react-logo" src="/react-logo.svg" alt="React Logo" />
 
         <Routes>
           <Route path="/" element={<HomePage />} />

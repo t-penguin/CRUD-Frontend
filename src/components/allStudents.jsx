@@ -5,25 +5,29 @@ const AllStudents = ({ students }) => {
   return (
     <div>
       <h2>All Students</h2>
-      <Link to="/addStudent">🧑‍🎓 Add Student</Link>
-      <ul>
+      <Link to="/addStudent" className="btn">🧑‍🎓 Add Student</Link>
+
+      <div className="grid">
         {students.length === 0 ? (
-            <p>No students available.</p>
+          <p>No students available.</p>
         ) : (
-            students.map((student) => (
-            <li key={student.id}>
-                <img
+          students.map((student) => (
+            <div key={student.id} className="card">
+              <img
                 src={student.imageUrl || "https://via.placeholder.com/100"}
-                alt="Thumb"
-                width="50"
-                style={{ marginRight: "10px", verticalAlign: "middle" }}
-                />
-                {student.firstName} {student.lastName} —{" "}
-                <Link to={`/students/${student.id}`}>View Details</Link>
-            </li>
-            ))
+                alt="Student Thumb"
+              />
+              <div>
+                <Link to={`/students/${student.id}`}>
+                  <strong>{student.firstName} {student.lastName}</strong>
+                </Link>
+                <p>Email: {student.email}</p>
+                <p>GPA: {student.gpa?.toFixed(2) ?? "N/A"}</p>
+              </div>
+            </div>
+          ))
         )}
-        </ul>
+      </div>
     </div>
   );
 };
