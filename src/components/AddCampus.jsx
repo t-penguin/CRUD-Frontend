@@ -25,7 +25,7 @@ const AddCampus = ({ fetchAllCampuses, API_URL }) => {
       console.error("Error adding campus", e);
     }
 
-    navigate("/");
+    navigate("/campuses");
   };
 
   return (

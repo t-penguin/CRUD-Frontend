@@ -20,6 +20,7 @@
   gap: 20px;
   width: 450px;
   align-items: flex-start;
+  flex-wrap: wrap;
 }
 
 img.campus-card-image {
@@ -37,4 +38,33 @@ img.campus-card-image {
 
 .campus-card-header {
   padding-bottom: 5px;
+}
+
+button,
+.btn {
+  background-color: #30d6ff;
+  border: none;
+  padding: 0.5rem 1rem;
+  margin: 0.5rem;
+  color: white;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button.delete,
+.btn-delete {
+  background-color: #f28b82;
+  color: black;
+}
+
+button.edit,
+.btn-edit {
+  background-color: #81c995;
+  color: black;
+}
+
+.btns {
+  display: flex;
+  justify-content: space-between;
 }

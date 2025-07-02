@@ -28,19 +28,21 @@ const App = () => {
       {
         id: 1,
         name: "BMCC",
-        img: "https://bmccprodstroac.blob.core.windows.net/uploads/2024/08/schools.jpg",
+        imageURL:
+          "https://bmccprodstroac.blob.core.windows.net/uploads/2024/08/schools.jpg",
         address: "199 Chambers St.",
         description: "Sample Description",
       },
       {
         id: 2,
         name: "Brooklyn College",
-        img: "",
+        imageURL: "",
         address: "2900 Bedford Avenue",
         description: "Sample Description",
       },
     ];
-    setCampuses(sampleCampuses);
+    //setCampuses(sampleCampuses);
+    fetchAllCampuses();
   }, []);
 
   return (
@@ -53,7 +55,13 @@ const App = () => {
           <Route path="/" element={<HomePage />} />
           <Route
             path="/campuses"
-            element={<AllCampuses campuses={campuses} />}
+            element={
+              <AllCampuses
+                campuses={campuses}
+                API_URL={API_URL}
+                fetchAllCampuses={fetchAllCampuses}
+              />
+            }
           />
           <Route path="/students" element={<AllStudents />} />
           <Route

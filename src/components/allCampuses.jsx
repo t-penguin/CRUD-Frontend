@@ -2,18 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import CampusCard from "./CampusCard";
 
-const AllCampuses = ({ campuses }) => {
-  /*
-  async function fetchAllCampuses() {
-    try {
-      const response = await axios.get(`${API_URL}/api/tasks`);
-      setCampuses(response.data);
-    } catch (e) {
-      console.error("Error fetching campuses:", e);
-    }
-  }
-  */
-
+const AllCampuses = ({ campuses, API_URL, fetchAllCampuses }) => {
   return (
     <div>
       <div className="campuses-header">
@@ -26,7 +15,12 @@ const AllCampuses = ({ campuses }) => {
       <div className="campus-card-container">
         {campuses.length > 0 ? (
           campuses.map((campus) => (
-            <CampusCard key={campus.id} campus={campus}></CampusCard>
+            <CampusCard
+              key={campus.id}
+              campus={campus}
+              API_URL={API_URL}
+              fetchAllCampuses={fetchAllCampuses}
+            ></CampusCard>
           ))
         ) : (
           <p>There are no campuses registered in the database</p>
