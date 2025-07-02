@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
+import axios from "axios";
 
-const AddCampus = () => {
+const AddCampus = ({ fetchAllCampuses, API_URL }) => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [address, setAddress] = useState("");
@@ -9,7 +10,21 @@ const AddCampus = () => {
 
   let navigate = useNavigate();
 
-  const handleSubmit = () => {
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      await axios.post(`${API_URL}/api/tasks`, {
+        name,
+        description,
+        address,
+        image,
+      });
+
+      fetchAllCampuses();
+    } catch (e) {
+      console.error("Error adding campus", e);
+    }
+
     navigate("/");
   };
 

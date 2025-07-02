@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import AddCampus from "./AddCampus";
+import { Link } from "react-router-dom";
 
-const AllCampuses = ({ API_URL }) => {
-  const [campuses, setCampuses] = useState([]);
-
+const AllCampuses = ({ campuses }) => {
   /*
   async function fetchAllCampuses() {
     try {
@@ -16,27 +15,18 @@ const AllCampuses = ({ API_URL }) => {
   }
   */
 
-  useEffect(() => {
-    const sampleCampuses = [
-      {
-        id: 1,
-        name: "BMCC",
-        img: "",
-        address: "199 Chambers St.",
-        description: "Sample Description",
-      },
-    ];
-    setCampuses(sampleCampuses);
-  }, []);
-
   return (
     <div>
       <h2>All Campuses</h2>
+      <Link to="/add-campus" className="btn">
+        Add Campus
+      </Link>
+
       {campuses.length > 0 ? (
         campuses.map((campus) => (
           <div key={campus.id}>
             <h3>{campus.name}</h3>
-            <img src="https://bmccprodstroac.blob.core.windows.net/uploads/2024/08/schools.jpg"></img>
+            <img src={campus.img}></img>
             <p>Address: {campus.address}</p>
             <p>Description: {campus.description}</p>
           </div>
@@ -44,7 +34,6 @@ const AllCampuses = ({ API_URL }) => {
       ) : (
         <p>No campuses available</p>
       )}
-      <AddCampus />
     </div>
   );
 };
