@@ -12,14 +12,26 @@ const CampusCard = ({ campus, API_URL, fetchAllCampuses }) => {
 
   const HandleDelete = async () => {
     try {
-      await axios.delete(`${API_URL}/api/campuses/${campus.id}`);
+      const response = await axios.delete(
+        `${API_URL}/api/campuses/${campus.id}`
+      );
+      console.log("Deleting", response.data);
       fetchAllCampuses();
     } catch (e) {
       console.error("Error deleting campus", e);
     }
   };
 
-  const HandleEdit = () => {};
+  const HandleEdit = async () => {
+    try {
+      const response = await axios.patch(
+        `${API_URL}/api/campuses/${campus.id}`
+      );
+      console.log("Modifying", response.data);
+    } catch (e) {
+      console.error("Error editing campus", e);
+    }
+  };
 
   return (
     <div className="campus-card">
@@ -30,7 +42,6 @@ const CampusCard = ({ campus, API_URL, fetchAllCampuses }) => {
             {campus.name}
           </h3>
         </div>
-        <p>Address: {campus.address}</p>
       </div>
       <div className="btns">
         <button className="btn-edit" onClick={HandleEdit}>
