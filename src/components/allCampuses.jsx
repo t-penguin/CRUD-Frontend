@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import AddCampus from "./AddCampus";
+import React from "react";
 import { Link } from "react-router-dom";
+import CampusCard from "./CampusCard";
 
 const AllCampuses = ({ campuses }) => {
   /*
@@ -22,18 +21,15 @@ const AllCampuses = ({ campuses }) => {
         Add Campus
       </Link>
 
-      {campuses.length > 0 ? (
-        campuses.map((campus) => (
-          <div key={campus.id}>
-            <h3>{campus.name}</h3>
-            <img src={campus.img}></img>
-            <p>Address: {campus.address}</p>
-            <p>Description: {campus.description}</p>
-          </div>
-        ))
-      ) : (
-        <p>No campuses available</p>
-      )}
+      <div className="campus-card-container">
+        {campuses.length > 0 ? (
+          campuses.map((campus) => (
+            <CampusCard key={campus.id} campus={campus}></CampusCard>
+          ))
+        ) : (
+          <p>No campuses available</p>
+        )}
+      </div>
     </div>
   );
 };

@@ -1,0 +1,35 @@
+.campus-card-container {
+  background-color: #ddd;
+  padding: 1rem;
+  margin: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.campus-card {
+  background-color: grey;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  display: flex;
+  gap: 20px;
+  width: 450px;
+  align-items: flex-start;
+}
+
+img.campus-card-image {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border: 1px solid #999;
+  border-radius: 0.5rem;
+  background-color: white;
+}
+
+.campus-card-text {
+  flex: 1;
+}
+
+.campus-card-header {
+  padding-bottom: 5px;
+}

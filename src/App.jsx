@@ -8,6 +8,7 @@ import AllCampuses from "./components/allCampuses";
 import AllStudents from "./components/allStudents";
 import HomePage from "./components/homePage";
 import AddCampus from "./components/AddCampus";
+import SingleCampus from "./components/SingleCampus";
 
 const API_URL = "http://localhost:8080";
 const App = () => {
@@ -32,7 +33,7 @@ const App = () => {
         description: "Sample Description",
       },
       {
-        id: 1,
+        id: 2,
         name: "Brooklyn College",
         img: "",
         address: "2900 Bedford Avenue",
@@ -64,6 +65,7 @@ const App = () => {
               />
             }
           />
+          <Route path="/campuses/:id" element={<SingleCampus />} />
         </Routes>
       </div>
     </div>

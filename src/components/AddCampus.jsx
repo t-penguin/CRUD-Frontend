@@ -13,7 +13,7 @@ const AddCampus = ({ fetchAllCampuses, API_URL }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      await axios.post(`${API_URL}/api/tasks`, {
+      await axios.post(`${API_URL}/api/campuses`, {
         name,
         description,
         address,
