@@ -23,6 +23,7 @@ const CampusCard = ({ campus, API_URL, fetchAllCampuses }) => {
   };
 
   const HandleEdit = async () => {
+    /*
     try {
       const response = await axios.patch(
         `${API_URL}/api/campuses/${campus.id}`
@@ -31,6 +32,7 @@ const CampusCard = ({ campus, API_URL, fetchAllCampuses }) => {
     } catch (e) {
       console.error("Error editing campus", e);
     }
+      */
   };
 
   return (

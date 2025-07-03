@@ -75,7 +75,15 @@ const App = () => {
               />
             }
           />
-          <Route path="/campuses/:id" element={<SingleCampus />} />
+          <Route
+            path="/campuses/:id"
+            element={
+              <SingleCampus
+                API_URL={API_URL}
+                fetchAllCampuses={fetchAllCampuses}
+              />
+            }
+          />
         </Routes>
       </div>
     </div>
