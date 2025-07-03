@@ -1,7 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
+import "./CampusStyle.css";
 
 const SingleCampus = () => {
-  return <div></div>;
+  const [isEditing, setIsEditing] = useState(false);
+
+  return (
+    <div className="SingleCampus">
+      isEditing ? (console.log("Is editing")) : (console.log("Is not editing"));
+    </div>
+  );
 };
 
 export default SingleCampus;
