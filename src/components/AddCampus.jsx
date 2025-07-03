@@ -46,14 +46,12 @@ const AddCampus = ({ fetchAllCampuses, API_URL }) => {
         <label>Address</label>
         <input
           type="text"
-          placeholder="Address"
           value={address}
           onChange={(e) => setAddress(e.target.value)}
         />
         <label>Image Link</label>
         <input
           type="text"
-          placeholder="Image Link"
           value={image}
           onChange={(e) => setImage(e.target.value)}
         />

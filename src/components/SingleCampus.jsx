@@ -7,6 +7,7 @@ const SingleCampus = ({ API_URL, fetchAllCampuses }) => {
   const location = useLocation();
   const isEditingFromAllCampus = location.state?.isEditing === true;
   const [isEditing, setIsEditing] = useState(isEditingFromAllCampus);
+  const [students, setStudents] = useState([]);
   let navigate = useNavigate();
 
   const { id } = useParams();
@@ -69,7 +70,9 @@ const SingleCampus = ({ API_URL, fetchAllCampuses }) => {
       try {
         const response = await axios.get(`${API_URL}/api/campuses/${id}`);
         console.log("Campus response:", response.data.campus);
+        console.log("students response:", response.data.students);
         setCampus(response.data.campus);
+        setStudents(response.data.students);
       } catch (e) {
         console.error("Failed to fetch campus", e);
       }
@@ -92,6 +95,7 @@ const SingleCampus = ({ API_URL, fetchAllCampuses }) => {
       <img className="campus-card-image" src={campus.imageURL}></img>
       <p>Description: {campus.description}</p>
       <p>Address: {campus.address}</p>
+      <p>Students: {students.length}</p>
       <div className="btns">
         {isEditing ? (
           <div>
