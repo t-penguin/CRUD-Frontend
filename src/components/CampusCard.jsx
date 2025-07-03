@@ -23,16 +23,9 @@ const CampusCard = ({ campus, API_URL, fetchAllCampuses }) => {
   };
 
   const HandleEdit = async () => {
-    /*
-    try {
-      const response = await axios.patch(
-        `${API_URL}/api/campuses/${campus.id}`
-      );
-      console.log("Modifying", response.data);
-    } catch (e) {
-      console.error("Error editing campus", e);
-    }
-      */
+    navigate(`/campuses/${campus.id}`, {
+      state: { isEditing: true },
+    });
   };
 
   return (
