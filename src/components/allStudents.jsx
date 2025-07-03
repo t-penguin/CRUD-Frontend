@@ -1,28 +1,38 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import ".//StudentStyles.css";
+
 
 const AllStudents = ({ students }) => {
   return (
-    <div>
-      <h2>All Students</h2>
-      <Link to="/addStudent" className="btn">🧑‍🎓 Add Student</Link>
+    <div className="all-students">
+      <div className="students-header">
+        <h2>All Students</h2>
+        <Link to="/add-student" className="btn">
+          ➕ Add Student
+        </Link>
+      </div>
 
       <div className="grid">
-        {students.length === 0 ? (
+        {students?.length === 0 ? (
           <p>No students available.</p>
         ) : (
           students.map((student) => (
             <div key={student.id} className="card">
               <img
-                src={student.imageUrl || "https://via.placeholder.com/100"}
-                alt="Student Thumb"
+                src={
+                  student.imageUrl ||
+                  "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"
+                }
+                alt={`${student.firstName} ${student.lastName}`}
+                width="100"
               />
-              <div>
+              <div className="student-details">
                 <Link to={`/students/${student.id}`}>
-                  <strong>{student.firstName} {student.lastName}</strong>
+                  {student.firstName} {student.lastName}
                 </Link>
                 <p>Email: {student.email}</p>
-                <p>GPA: {student.gpa?.toFixed(2) ?? "N/A"}</p>
+                <p>GPA: {isNaN(student.gpa) ? "N/A" : Number(student.gpa).toFixed(2)}</p>
               </div>
             </div>
           ))
