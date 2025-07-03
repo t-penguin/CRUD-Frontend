@@ -1,16 +1,32 @@
 import React, { useEffect, useState } from "react";
 import "./CampusStyle.css";
 import axios from "axios";
-import { useNavigate, useParams } from "react-router";
+import { useNavigate, useParams, useLocation } from "react-router";
 
 const SingleCampus = ({ API_URL, fetchAllCampuses }) => {
-  //const [isEditing, setIsEditing] = useState(false);
+  const location = useLocation();
+  const isEditingFromAllCampus = location.state?.isEditing === true;
+  const [isEditing, setIsEditing] = useState(isEditingFromAllCampus);
   let navigate = useNavigate();
 
   const { id } = useParams();
-  const [campus, setCampus] = useState("");
+  const [campus, setCampus] = useState({
+    name: "",
+    address: "",
+    description: "",
+    imageURL: "",
+  });
+  const [formData, setFormData] = useState({
+    campus: {
+      name: "",
+      address: "",
+      description: "",
+      imageURL: "",
+    },
+  });
+  const [error, setError] = useState("");
 
-  const HandleDelete = async () => {
+  const handleDelete = async () => {
     try {
       const response = await axios.delete(
         `${API_URL}/api/campuses/${campus.id}`
@@ -23,17 +39,29 @@ const SingleCampus = ({ API_URL, fetchAllCampuses }) => {
     }
   };
 
-  const HandleEdit = async () => {
-    /*
-    try {
-      const response = await axios.patch(
-        `${API_URL}/api/campuses/${campus.id}`
-      );
-      console.log("Modifying", response.data);
-    } catch (e) {
-      console.error("Error editing campus", e);
+  const handleSave = async () => {
+    if (
+      !formData.campus?.name &&
+      !formData.campus?.description &&
+      !formData.campus?.address &&
+      !formData.campus?.imageURL
+    ) {
+      setError("At least one field is required.");
+      return;
     }
-      */
+
+    setCampus(formData.campus);
+
+    try {
+      const response = await axios.put(
+        `${API_URL}/api/campuses/${campus.id}`,
+        formData.campus
+      );
+      console.log("Modifying status:", response.data);
+      setIsEditing(false);
+    } catch (e) {
+      console.error(`Failed to modify ${campus.id}`, e);
+    }
   };
 
   useEffect(() => {
@@ -50,6 +78,10 @@ const SingleCampus = ({ API_URL, fetchAllCampuses }) => {
     fetchCampus();
   }, []);
 
+  useEffect(() => {
+    setFormData({ campus });
+  }, [campus]);
+
   if (!campus) return <p>Campus not found</p>;
 
   return (
@@ -61,10 +93,66 @@ const SingleCampus = ({ API_URL, fetchAllCampuses }) => {
       <p>Description: {campus.description}</p>
       <p>Address: {campus.address}</p>
       <div className="btns">
-        <button className="btn-edit" onClick={HandleEdit}>
-          Edit
-        </button>
-        <button className="btn-delete" onClick={HandleDelete}>
+        {isEditing ? (
+          <div>
+            <label>Name</label>
+            <input
+              value={formData.campus?.name || ""}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  campus: {
+                    ...formData.campus,
+                    name: e.target.value,
+                  },
+                })
+              }
+            />
+            <label>Address</label>
+            <input
+              value={formData.campus?.address || ""}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  campus: { ...formData.campus, address: e.target.value },
+                })
+              }
+            />
+
+            <label>Description</label>
+            <input
+              value={formData.campus?.description || ""}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  campus: { ...formData.campus, description: e.target.value },
+                })
+              }
+            />
+            <label>Image URL</label>
+            <input
+              value={formData.campus?.imageURL || ""}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  campus: { ...formData.campus, imageURL: e.target.value },
+                })
+              }
+            />
+            <button onClick={handleSave} className="btn-edit">
+              Save
+            </button>
+            <button onClick={() => setIsEditing(false)} className="btn">
+              Cancel
+            </button>
+          </div>
+        ) : (
+          <button onClick={() => setIsEditing(true)} className="btn-edit">
+            Edit
+          </button>
+        )}
+
+        <button className="btn-delete" onClick={handleDelete}>
           Delete
         </button>
       </div>
