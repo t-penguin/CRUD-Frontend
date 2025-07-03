@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import "./StudentStyles.css";
 
@@ -137,7 +138,7 @@ const SingleStudent = () => {
             {student.campus ? (
               <>
                 <strong>Campus:</strong>{" "}
-                <a href={`/campuses/${student.campus.id}`}>{student.campus.name}</a>
+                <Link to={`/campuses/${student.campus.id}`}>{student.campus.name}</Link>
               </>
             ) : (
               <em>This student is not registered to a campus.</em>

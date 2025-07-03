@@ -91,4 +91,3 @@ root.render(
   </React.StrictMode>
 );
 
-export default App;
