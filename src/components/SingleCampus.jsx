@@ -74,8 +74,6 @@ const SingleCampus = ({ API_URL, fetchAllCampuses }) => {
         console.log("Students response:", response.data.students);
         setCampus(response.data.campus);
         setStudents(response.data.students);
-
-        console.log("student: ", students);
       } catch (e) {
         console.error("Failed to fetch campus", e);
       }
@@ -89,7 +87,6 @@ const SingleCampus = ({ API_URL, fetchAllCampuses }) => {
   }, [campus]);
 
   if (!campus) return <p>Campus not found</p>;
-
   return (
     <div className="single-campus-card">
       <div className="single-campus-card-header">
@@ -102,7 +99,7 @@ const SingleCampus = ({ API_URL, fetchAllCampuses }) => {
       <div className="student-list">
         <p>Students:</p>
         {students.map((student) => (
-          <div key={student.id}>{student.name}</div>
+          <div key={student?.id}>{student?.firstName}</div>
         ))}
       </div>
 
