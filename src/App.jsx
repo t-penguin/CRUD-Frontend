@@ -3,13 +3,12 @@ import { createRoot } from "react-dom/client";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import axios from "axios";
 import "./AppStyles.css";
-
 import Navbar from "./components/NavBar";
 import AllCampuses from "./components/allCampuses";
 import AllStudents from "./components/allStudents";
 import HomePage from "./components/homePage";
 import AddCampus from "./components/AddCampus";
-import SingCampus from "./components/singleCampus";
+import SingleCampus from "./components/SingleCampus";
 import AddStudent from "./components/addStudent";
 import SingStudent from "./components/singleStudent";
 
@@ -32,19 +31,53 @@ const App = () => {
   }, []);
 
   return (
-    <Router>
+    <div>
       <Navbar />
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/students" element={<AllStudents />} />
-        <Route path="/students/:id" element={<SingStudent />} />
-        <Route path="/campuses" element={<AllCampuses />} />
-        <Route path="/campuses/:id" element={<SingCampus />} />
-        <Route path="/add-campus" element={<AddCampus />} />
-        <Route path="/add-student" element={<AddStudent />} />
-      </Routes>
-    </Router>
+      <div className="app">
+        <img className="react-logo" src="/react-logo.svg" alt="React Logo" />
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route
+            path="/campuses"
+            element={
+              <AllCampuses
+                campuses={campuses}
+                API_URL={API_URL}
+                fetchAllCampuses={fetchAllCampuses}
+              />
+            }
+          />
+          <Route path="/students" element={<AllStudents />} />
+          <Route
+            path="/add-campus"
+            element={
+              <AddCampus
+                fetchAllCampuses={fetchAllCampuses}
+                API_URL={API_URL}
+              />
+            }
+          />
+          <Route
+            path="/campuses/:id"
+            element={
+              <SingleCampus
+                API_URL={API_URL}
+                fetchAllCampuses={fetchAllCampuses}
+              />
+            }
+          />
+          <Route path="/add-student" element={<AddStudent />} />
+          <Route path="/students/:id" element={<SingStudent />} />
+        </Routes>
+      </div>
+    </div>
   );
 };
 
-export default App;
+const root = createRoot(document.getElementById("root"));
+
+root.render(
+  <Router>
+    <App />
+  </Router>
+);
