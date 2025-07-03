@@ -9,7 +9,9 @@ const SingleCampus = ({ API_URL, fetchAllCampuses }) => {
 
   const [campus, setCampus] = useState(null);
   const [students, setStudents] = useState([]);
-  const [isEditing, setIsEditing] = useState(location.state?.isEditing || false);
+  const [isEditing, setIsEditing] = useState(
+    location.state?.isEditing || false
+  );
   const [formData, setFormData] = useState({});
   const [error, setError] = useState("");
 
@@ -34,14 +36,20 @@ const SingleCampus = ({ API_URL, fetchAllCampuses }) => {
   }, [campus]);
 
   const handleSave = async () => {
-    if (!formData.name && !formData.address && !formData.description && !formData.imageURL) {
+    if (
+      !formData.name &&
+      !formData.address &&
+      !formData.description &&
+      !formData.imageURL
+    ) {
       setError("At least one field is required.");
       return;
     }
 
     try {
       const res = await axios.put(`${API_URL}/api/campuses/${id}`, formData);
-      setCampus(res.data);
+      console.log(res.data);
+      setCampus(formData);
       setIsEditing(false);
       setError("");
       fetchAllCampuses();
@@ -74,11 +82,18 @@ const SingleCampus = ({ API_URL, fetchAllCampuses }) => {
 
       <img
         className="campus-card-image"
-        src={campus.imageURL || "https://cdn-icons-png.flaticon.com/512/4696/4696591.png"}
+        src={
+          campus.imageURL ||
+          "https://cdn-icons-png.flaticon.com/512/4696/4696591.png"
+        }
         alt={`${campus.name} campus`}
       />
-      <p><strong>Description:</strong> {campus.description}</p>
-      <p><strong>Address:</strong> {campus.address}</p>
+      <p>
+        <strong>Description:</strong> {campus.description}
+      </p>
+      <p>
+        <strong>Address:</strong> {campus.address}
+      </p>
 
       <div className="student-list">
         <h3>Students Enrolled:</h3>
@@ -106,29 +121,43 @@ const SingleCampus = ({ API_URL, fetchAllCampuses }) => {
           <label>Address</label>
           <input
             value={formData.address || ""}
-            onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+            onChange={(e) =>
+              setFormData({ ...formData, address: e.target.value })
+            }
           />
 
           <label>Description</label>
           <input
             value={formData.description || ""}
-            onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+            onChange={(e) =>
+              setFormData({ ...formData, description: e.target.value })
+            }
           />
 
           <label>Image URL</label>
           <input
             value={formData.imageURL || ""}
-            onChange={(e) => setFormData({ ...formData, imageURL: e.target.value })}
+            onChange={(e) =>
+              setFormData({ ...formData, imageURL: e.target.value })
+            }
           />
 
-          <button onClick={handleSave} className="btn-edit">💾 Save</button>
-          <button onClick={() => setIsEditing(false)} className="btn">Cancel</button>
+          <button onClick={handleSave} className="btn-edit">
+            💾 Save
+          </button>
+          <button onClick={() => setIsEditing(false)} className="btn">
+            Cancel
+          </button>
         </div>
       ) : (
-        <button onClick={() => setIsEditing(true)} className="btn-edit">✏️ Edit</button>
+        <button onClick={() => setIsEditing(true)} className="btn-edit">
+          ✏️ Edit
+        </button>
       )}
 
-      <button onClick={handleDelete} className="btn-delete">🗑️ Delete</button>
+      <button onClick={handleDelete} className="btn-delete">
+        🗑️ Delete
+      </button>
     </div>
   );
 };
