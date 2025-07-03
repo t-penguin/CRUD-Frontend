@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import "./CampusStyle.css";
 import axios from "axios";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 
 const SingleCampus = ({ API_URL, fetchAllCampuses }) => {
   //const [isEditing, setIsEditing] = useState(false);
+  let navigate = useNavigate();
+
   const { id } = useParams();
   const [campus, setCampus] = useState("");
 
@@ -15,6 +17,7 @@ const SingleCampus = ({ API_URL, fetchAllCampuses }) => {
       );
       console.log("Deleting", response.data);
       fetchAllCampuses();
+      navigate("/campuses");
     } catch (e) {
       console.error("Error deleting campus", e);
     }
@@ -47,7 +50,7 @@ const SingleCampus = ({ API_URL, fetchAllCampuses }) => {
     fetchCampus();
   }, []);
 
-  if (!campus) return;
+  if (!campus) return <p>Campus not found</p>;
 
   return (
     <div className="single-campus-card">
