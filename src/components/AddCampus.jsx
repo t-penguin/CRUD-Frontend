@@ -32,23 +32,25 @@ const AddCampus = ({ fetchAllCampuses, API_URL }) => {
     <div>
       <h1>Add a Campus</h1>
       <form onSubmit={handleSubmit}>
+        <label>Name</label>
         <input
           type="text"
-          placeholder="Name"
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
+        <label>Description</label>
         <textarea
-          placeholder="Description"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
+        <label>Address</label>
         <input
           type="text"
           placeholder="Address"
           value={address}
           onChange={(e) => setAddress(e.target.value)}
         />
+        <label>Image Link</label>
         <input
           type="text"
           placeholder="Image Link"
