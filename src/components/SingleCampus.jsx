@@ -11,6 +11,7 @@ const SingleCampus = ({ API_URL, fetchAllCampuses }) => {
   let navigate = useNavigate();
 
   const { id } = useParams();
+
   const [campus, setCampus] = useState({
     name: "",
     address: "",
@@ -70,9 +71,11 @@ const SingleCampus = ({ API_URL, fetchAllCampuses }) => {
       try {
         const response = await axios.get(`${API_URL}/api/campuses/${id}`);
         console.log("Campus response:", response.data.campus);
-        console.log("students response:", response.data.students);
+        console.log("Students response:", response.data.students);
         setCampus(response.data.campus);
         setStudents(response.data.students);
+
+        console.log("student: ", students);
       } catch (e) {
         console.error("Failed to fetch campus", e);
       }
@@ -95,71 +98,78 @@ const SingleCampus = ({ API_URL, fetchAllCampuses }) => {
       <img className="campus-card-image" src={campus.imageURL}></img>
       <p>Description: {campus.description}</p>
       <p>Address: {campus.address}</p>
-      <p>Students: {students.length}</p>
-      <div className="btns">
-        {isEditing ? (
-          <div>
-            <label>Name</label>
-            <input
-              value={formData.campus?.name || ""}
-              onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  campus: {
-                    ...formData.campus,
-                    name: e.target.value,
-                  },
-                })
-              }
-            />
-            <label>Address</label>
-            <input
-              value={formData.campus?.address || ""}
-              onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  campus: { ...formData.campus, address: e.target.value },
-                })
-              }
-            />
 
-            <label>Description</label>
-            <input
-              value={formData.campus?.description || ""}
-              onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  campus: { ...formData.campus, description: e.target.value },
-                })
-              }
-            />
-            <label>Image URL</label>
-            <input
-              value={formData.campus?.imageURL || ""}
-              onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  campus: { ...formData.campus, imageURL: e.target.value },
-                })
-              }
-            />
-            <button onClick={handleSave} className="btn-edit">
-              Save
-            </button>
-            <button onClick={() => setIsEditing(false)} className="btn">
-              Cancel
-            </button>
-          </div>
-        ) : (
-          <button onClick={() => setIsEditing(true)} className="btn-edit">
-            Edit
-          </button>
-        )}
-
-        <button className="btn-delete" onClick={handleDelete}>
-          Delete
-        </button>
+      <div className="student-list">
+        <p>Students:</p>
+        {students.map((student) => (
+          <div key={student.id}>{student.name}</div>
+        ))}
       </div>
+
+      {error && <p className="error-message">{error}</p>}
+
+      {isEditing ? (
+        <div>
+          <label>Name</label>
+          <input
+            value={formData.campus?.name || ""}
+            onChange={(e) =>
+              setFormData({
+                ...formData,
+                campus: {
+                  ...formData.campus,
+                  name: e.target.value,
+                },
+              })
+            }
+          />
+          <label>Address</label>
+          <input
+            value={formData.campus?.address || ""}
+            onChange={(e) =>
+              setFormData({
+                ...formData,
+                campus: { ...formData.campus, address: e.target.value },
+              })
+            }
+          />
+
+          <label>Description</label>
+          <input
+            value={formData.campus?.description || ""}
+            onChange={(e) =>
+              setFormData({
+                ...formData,
+                campus: { ...formData.campus, description: e.target.value },
+              })
+            }
+          />
+          <label>Image URL</label>
+          <input
+            value={formData.campus?.imageURL || ""}
+            onChange={(e) =>
+              setFormData({
+                ...formData,
+                campus: { ...formData.campus, imageURL: e.target.value },
+              })
+            }
+          />
+          <button onClick={handleSave} className="btn-edit">
+            Save
+          </button>
+          <button onClick={() => setIsEditing(false)} className="btn">
+            Cancel
+          </button>
+        </div>
+      ) : (
+        <button onClick={() => setIsEditing(true)} className="btn-edit">
+          Edit
+        </button>
+      )}
+
+      <button className="btn-delete" onClick={handleDelete}>
+        Delete
+      </button>
     </div>
   );
 };
