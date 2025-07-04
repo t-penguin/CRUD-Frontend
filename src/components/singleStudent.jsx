@@ -1,32 +1,27 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import "./StudentStyles.css";
+import ".//StudentStyles.css";
 
 const API_URL = "https://crud-backend-black-kappa.vercel.app";
 
 const SingleStudent = () => {
   const { studentId } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [student, setStudent] = useState(null);
-  const [isEditing, setIsEditing] = useState(false);
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    gpa: "",
-    imageUrl: "",
-    campusId: ""
-  });
   const [campuses, setCampuses] = useState([]);
+  const [formData, setFormData] = useState({});
+  const [isEditing, setIsEditing] = useState(location.state?.isEditing || false);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const fetchStudent = async () => {
       try {
         const response = await axios.get(`${API_URL}/api/students/${studentId}`);
-        setStudent(response.data);
+        setStudent(response.data.student || response.data); // Handles both structured or flat responses
       } catch (err) {
         console.error("Error fetching student:", err);
       }
@@ -46,38 +41,44 @@ const SingleStudent = () => {
   }, [studentId]);
 
   useEffect(() => {
-    if (isEditing && student) {
-      const filledForm = {
+    if (student) {
+      setFormData({
         firstName: student.firstName || "",
         lastName: student.lastName || "",
         email: student.email || "",
         gpa: student.gpa?.toString() || "",
         imageUrl: student.imageUrl || "",
-        campusId: student.campusId || ""
-      };
-      setFormData(filledForm);
-      console.log("Prefilled student data:", filledForm);
+        campusId: student.campusId || student.campus?.id || "",
+      });
     }
-  }, [isEditing, student]);
+  }, [student]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSave = async () => {
+    if (!formData.firstName || !formData.lastName || !formData.email) {
+      setError("First name, last name, and email are required.");
+      return;
+    }
+
     try {
-      await axios.put(`${API_URL}/api/students/${studentId}`, formData);
-      const updatedStudent = { ...student, ...formData };
-      setStudent(updatedStudent);
+      const response = await axios.put(`${API_URL}/api/students/${studentId}`, formData);
+      setStudent(response.data);
       setIsEditing(false);
+      setError("");
     } catch (err) {
       console.error("Error updating student:", err);
+      setError("Failed to update student.");
     }
   };
 
   const handleDelete = async () => {
+    const confirm = window.confirm(`Delete student "${student.firstName} ${student.lastName}"?`);
+    if (!confirm) return;
+
     try {
       await axios.delete(`${API_URL}/api/students/${studentId}`);
       navigate("/students");
@@ -86,37 +87,50 @@ const SingleStudent = () => {
     }
   };
 
-  const handleCancel = () => {
-    setIsEditing(false);
-  };
-
-  if (!student) return <p>Loading student...</p>;
+  if (!student) return <p>Student not found</p>;
 
   return (
-    <div className="card">
+    <div className="single-student-card">
+      <div className="single-student-card-header">
+        <h2>{student.firstName} {student.lastName}</h2>
+      </div>
+
       <img
+        className="student-card-image"
         src={student.imageUrl || "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"}
         alt="Student Avatar"
       />
+      <p><strong>Email:</strong> {student.email || "N/A"}</p>
+      <p><strong>GPA:</strong> {student.gpa ?? "N/A"}</p>
+      <p>
+        <strong>Campus:</strong>{" "}
+        {student.campus ? (
+          <Link to={`/campuses/${student.campus.id}`}>{student.campus.name}</Link>
+        ) : (
+          <em>This student is not registered to a campus.</em>
+        )}
+      </p>
+
+      {error && <p className="error-message">{error}</p>}
 
       {isEditing ? (
-        <form onSubmit={handleSubmit}>
-          <label>First Name:</label>
+        <div className="student-edit-form">
+          <label>First Name</label>
           <input name="firstName" value={formData.firstName} onChange={handleChange} />
 
-          <label>Last Name:</label>
+          <label>Last Name</label>
           <input name="lastName" value={formData.lastName} onChange={handleChange} />
 
-          <label>Email:</label>
+          <label>Email</label>
           <input name="email" value={formData.email} onChange={handleChange} />
 
-          <label>GPA:</label>
-          <input name="gpa" value={formData.gpa} onChange={handleChange} />
+          <label>GPA</label>
+          <input name="gpa" type="number" step="0.1" min="0" max="4" value={formData.gpa} onChange={handleChange} />
 
-          <label>Image URL:</label>
+          <label>Image URL</label>
           <input name="imageUrl" value={formData.imageUrl} onChange={handleChange} />
 
-          <label>Campus:</label>
+          <label>Campus</label>
           <select name="campusId" value={formData.campusId} onChange={handleChange}>
             <option value="">-- None --</option>
             {campuses.map((campus) => (
@@ -126,28 +140,14 @@ const SingleStudent = () => {
             ))}
           </select>
 
-          <button type="submit" className="btn-edit">💾 Save</button>
-          <button type="button" onClick={handleCancel} className="btn">Cancel</button>
-        </form>
-      ) : (
-        <div>
-          <h2>{student.firstName} {student.lastName}</h2>
-          <p><strong>Email:</strong> {student.email || "N/A"}</p>
-          <p><strong>GPA:</strong> {student.gpa ?? "N/A"}</p>
-          <p>
-            {student.campus ? (
-              <>
-                <strong>Campus:</strong>{" "}
-                <Link to={`/campuses/${student.campus.id}`}>{student.campus.name}</Link>
-              </>
-            ) : (
-              <em>This student is not registered to a campus.</em>
-            )}
-          </p>
-          <button onClick={() => setIsEditing(true)} className="btn-edit">Edit</button>
-          <button onClick={handleDelete} className="btn-delete">Delete</button>
+          <button onClick={handleSave} className="btn-edit">💾 Save</button>
+          <button onClick={() => setIsEditing(false)} className="btn">Cancel</button>
         </div>
+      ) : (
+        <button onClick={() => setIsEditing(true)} className="btn-edit">✏️ Edit</button>
       )}
+
+      <button onClick={handleDelete} className="btn-delete">🗑️ Delete</button>
     </div>
   );
 };
