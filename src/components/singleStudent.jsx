@@ -6,7 +6,7 @@ import ".//StudentStyles.css";
 
 const API_URL = "https://crud-backend-black-kappa.vercel.app";
 
-const SingleStudent = () => {
+const SingleStudent = ({ fetchAllStudents }) => {
   const { studentId } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
@@ -77,15 +77,16 @@ const SingleStudent = () => {
 
   const handleDelete = async () => {
     const confirm = window.confirm(`Delete student "${student.firstName} ${student.lastName}"?`);
-    if (!confirm) return;
+      if (!confirm) return;
 
-    try {
-      await axios.delete(`${API_URL}/api/students/${studentId}`);
-      navigate("/students");
-    } catch (err) {
-      console.error("Error deleting student:", err);
-    }
-  };
+      try {
+        await axios.delete(`${API_URL}/api/students/${studentId}`);
+        if (fetchAllStudents) fetchAllStudents(); 
+        navigate("/students"); 
+      } catch (err) {
+        console.error("Error deleting student:", err);
+      }
+};
 
   if (!student) return <p>Student not found</p>;
 

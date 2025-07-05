@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import axios from "axios";
+import "./CampusStyle.css";
+
 
 const AddCampus = ({ fetchAllCampuses, API_URL }) => {
   const [formData, setFormData] = useState({

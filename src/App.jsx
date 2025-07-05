@@ -48,7 +48,9 @@ const App = () => {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/students" element={<AllStudents students={students} />} />
-        <Route path="/students/:studentId" element={<SingleStudent />} />
+        <Route path="/students/:studentId" element={<SingleStudent fetchAllStudents={fetchAllStudents} />}
+        />
+
         <Route path="/campuses" element={
           <AllCampuses 
             campuses={campuses} 
