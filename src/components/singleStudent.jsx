@@ -65,8 +65,10 @@ const SingleStudent = ({ fetchAllStudents }) => {
     }
 
     try {
-      const response = await axios.put(`${API_URL}/api/students/${studentId}`, formData);
-      setStudent(response.data);
+      await axios.put(`${API_URL}/api/students/${studentId}`, formData);
+
+      const refreshed = await axios.get(`${API_URL}/api/students/${studentId}`);
+      setStudent(refreshed.data.student || refreshed.data);
       setIsEditing(false);
       setError("");
     } catch (err) {
@@ -75,17 +77,18 @@ const SingleStudent = ({ fetchAllStudents }) => {
     }
   };
 
+
   const handleDelete = async () => {
     const confirm = window.confirm(`Delete student "${student.firstName} ${student.lastName}"?`);
-      if (!confirm) return;
+  if (!confirm) return;
 
-      try {
-        await axios.delete(`${API_URL}/api/students/${studentId}`);
-        if (fetchAllStudents) fetchAllStudents(); 
-        navigate("/students"); 
-      } catch (err) {
-        console.error("Error deleting student:", err);
-      }
+  try {
+    await axios.delete(`${API_URL}/api/students/${studentId}`);
+    if (fetchAllStudents) fetchAllStudents();
+    navigate("/students");
+  } catch (err) {
+    console.error("Error deleting student:", err);
+  }
 };
 
   if (!student) return <p>Student not found</p>;
