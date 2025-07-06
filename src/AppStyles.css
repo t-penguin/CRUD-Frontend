@@ -9,7 +9,6 @@ body {
   cursor: pointer;
 
 }
-
 h1, h2 {
   font-size: 2rem;
   margin-bottom: 1rem;
@@ -37,7 +36,6 @@ nav {
   gap: 2rem;
   border-bottom: 2px solid #999;
   align-items: center;
-
 }
 
 nav a {
@@ -81,6 +79,9 @@ form label {
 
 form .error {
   border: 2px solid red;
+  background-color: #ffe6e6;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;            
 }
 
 form .error-message {
@@ -122,10 +123,20 @@ form .error-message {
   margin-top: 1rem;
 }
 
-
 .alert {
   padding: 1rem;
   margin: 1rem 0;
   border-radius: 5px;
   font-weight: bold;
 }
+
+.loader {
+  border: 5px solid #ccc;
+  border-top: 5px solid #30d6ff;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin: 2rem auto;
+}
+
