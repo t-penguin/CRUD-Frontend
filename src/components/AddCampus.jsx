@@ -1,61 +1,78 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import axios from "axios";
+import "./CampusStyle.css";
+
 
 const AddCampus = ({ fetchAllCampuses, API_URL }) => {
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [address, setAddress] = useState("");
-  const [image, setImage] = useState("");
+  const [formData, setFormData] = useState({
+    name: "",
+    description: "",
+    address: "",
+    imageURL: "",
+  });
+  const [error, setError] = useState("");
 
-  let navigate = useNavigate();
+  const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    try {
-      await axios.post(`${API_URL}/api/campuses`, {
-        name,
-        description,
-        address,
-        image,
-      });
 
-      fetchAllCampuses();
-    } catch (e) {
-      console.error("Error adding campus", e);
+    const { name, description, address } = formData;
+    if (!name || !address || !description) {
+      setError("Name, address, and description are required.");
+      return;
     }
 
-    navigate("/campuses");
+    try {
+      await axios.post(`${API_URL}/api/campuses`, formData);
+      fetchAllCampuses();
+      navigate("/campuses");
+    } catch (e) {
+      console.error("Error adding campus", e);
+      setError("Something went wrong. Please try again.");
+    }
   };
 
   return (
-    <div>
+    <div className="add-campus-form">
       <h1>Add a Campus</h1>
+      {error && <p className="error-message">{error}</p>}
       <form onSubmit={handleSubmit}>
+        <label>Name</label>
         <input
           type="text"
-          placeholder="Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
+          value={formData.name}
+          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
         />
+
+        <label>Description</label>
         <textarea
-          placeholder="Description"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
+          value={formData.description}
+          onChange={(e) => setFormData({ ...formData, description: e.target.value })}
         />
+
+        <label>Address</label>
         <input
           type="text"
-          placeholder="Address"
-          value={address}
-          onChange={(e) => setAddress(e.target.value)}
+          value={formData.address}
+          onChange={(e) => setFormData({ ...formData, address: e.target.value })}
         />
+
+        <label>Image URL</label>
         <input
           type="text"
-          placeholder="Image Link"
-          value={image}
-          onChange={(e) => setImage(e.target.value)}
+          value={formData.imageURL}
+          onChange={(e) => setFormData({ ...formData, imageURL: e.target.value })}
         />
-        <button type="submit">Add</button>
+
+        {formData.imageURL && (
+          <div style={{ margin: "1rem 0" }}>
+            <img src={formData.imageURL} alt="Campus preview" width="200" />
+          </div>
+        )}
+
+        <button type="submit">➕ Add Campus</button>
       </form>
     </div>
   );
