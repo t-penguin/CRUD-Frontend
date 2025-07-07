@@ -1,38 +1,33 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
+import axios from "axios";
 import "./Login.css";
 
-const LoginPage = () => {
-  useEffect(() => {
-    const togglePassword = document.querySelector(".toggle-password");
-    const passwordField = document.getElementById("password");
+const LoginPage = ({ API_URL }) => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
-    if (togglePassword && passwordField) {
-      togglePassword.addEventListener("click", () => {
-        passwordField.type =
-          passwordField.type === "password" ? "text" : "password";
-      });
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+
+    if (!username || !password) {
+      setError("Please fill in all fields!");
+      return;
     }
 
-    const form = document.getElementById("loginForm");
-    if (form) {
-      form.addEventListener("submit", (e) => {
-        const username = document.getElementById("username").value;
-        const password = document.getElementById("password").value;
+    try {
+      const res = await axios.post(`${API_URL}/auth/login`, {
+        username,
+        password,
+      }, { withCredentials: true }); // <- important if using cookies
 
-        if (!username || !password) {
-          e.preventDefault();
-          alert("Please fill in all fields!");
-          return;
-        }
-
-        document.getElementById("progress-bar").style.width = "100%";
-
-        setTimeout(() => {
-          alert("Login Successful!");
-        }, 2000);
-      });
+      console.log(res.data);
+      alert("Login Successful!");
+      // Optionally: redirect or set app state
+    } catch (err) {
+      console.error(err);
+      setError("Invalid credentials or server error.");
     }
-  }, []);
-
-};
+  };
 export default LoginPage;
