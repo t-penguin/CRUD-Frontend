@@ -12,6 +12,7 @@ import AddCampus from "./components/AddCampus";
 import SingleCampus from "./components/SingleCampus";
 import AddStudent from "./components/addStudent";
 import SingleStudent from "./components/singleStudent";
+import LoginPage from "./components/Login";
 
 const API_URL = "https://crud-backend-black-kappa.vercel.app";
 
