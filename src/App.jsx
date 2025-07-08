@@ -91,7 +91,7 @@ const App = () => {
           }
         />
         <Route path="/login" element={<LoginPage API_URL={API_URL} />} />
-        <Route path="/signup" element={<SignUp API_URL={API_URL} />} />
+        <Route path="/signup" element={<Signup API_URL={API_URL} />} />
 
         {/* Fallback Route */}
         <Route

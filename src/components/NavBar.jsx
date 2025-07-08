@@ -5,12 +5,12 @@ import "./NavBarStyles.css";
 const NavBar = () => {
   return (
     <nav className="navbar">
-      <div className="nav-logo">
+      <div className="navbar-container">
         <Link to="/">Home</Link>
       </div>
       <div className="nav-links">
-        <Link to="/campuses">Campuses</Link>
-        <Link to="/students">Students</Link>
+        <Link to="/campuses" className="nav-link">Campuses</Link>
+        <Link to="/students" className="nav-link"> Students</Link>
       </div>
     </nav>
   );
