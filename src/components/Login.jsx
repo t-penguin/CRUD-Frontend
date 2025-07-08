@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "./Login.css"
+import { useNavigate } from "react-router";
 
 
-const LoginPage = ({ API_URL }) => {
+const LoginPage = ({ API_URL, setLoggedIn }) => {
+  const navigate = useNavigate();
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -25,6 +28,8 @@ const LoginPage = ({ API_URL }) => {
 
       console.log(res.data);
       alert("Login Successful!");
+      setLoggedIn(true);
+      navigate("/");
     } catch (err) {
       console.error(err);
       setError("Invalid credentials or server error.");

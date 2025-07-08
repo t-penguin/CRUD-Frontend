@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./Signup.css";
 
-const SignUp = () => {
+const SignUp = ({ API_URL, setLoggedIn }) => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -30,8 +30,9 @@ const SignUp = () => {
     }
 
     try {
-      await axios.post("http://localhost:8080/auth/signup", formData);
+      await axios.post(`${API_URL}/auth/signup`, formData);
       alert("Sign Up Successful!");
+      setLoggedIn(true);
       navigate("/");
     } catch (error) {
       console.error(error);
