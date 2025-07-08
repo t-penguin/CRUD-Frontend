@@ -30,7 +30,7 @@ const SignUp = () => {
     }
 
     try {
-      await axios.post("http://localhost:8080/api/students", formData);
+      await axios.post("http://localhost:8080/auth/signup", formData);
       alert("Sign Up Successful!");
       navigate("/");
     } catch (error) {
