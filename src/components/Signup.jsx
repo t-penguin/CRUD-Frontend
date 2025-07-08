@@ -7,13 +7,9 @@ const SignUp = () => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
+    username: "",
+    password: "",
     email: "",
-    address: "",
-    dateOfBirth: "",
-    phoneNumber: "",
-    imageURL: "",
   });
 
   const handleChange = (e) => {
@@ -26,9 +22,9 @@ const SignUp = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const { firstName, lastName, email, address } = formData;
+    const { username, password, email } = formData;
 
-    if (!firstName || !lastName || !email || !address) {
+    if (!username || !password || !email) {
       alert("Please fill in all required fields!");
       return;
     }
@@ -50,22 +46,13 @@ const SignUp = () => {
           <h1>Sign Up</h1>
 
           {[
-            { name: "firstName", placeholder: "First Name", required: true },
-            { name: "lastName", placeholder: "Last Name", required: true },
+            { name: "username", placeholder: "username", required: true },
+            { name: "password", placeholder: "password", required: true },
             {
               name: "email",
               placeholder: "Email",
               type: "email",
               required: true,
-            },
-            {
-              name: "gpa",
-              placeholder: "GPA",
-              type: "number",
-              required: true,
-              min: 0,
-              max: 4,
-              step: 0.1,
             },
           ].map(({ name, placeholder, type = "text", ...rest }) => (
             <div className="input-box" key={name}>
