@@ -7,13 +7,9 @@ const SignUp = () => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
+    username: "",
+    password: "",
     email: "",
-    address: "",
-    dateOfBirth: "",
-    phoneNumber: "",
-    imageURL: "",
   });
 
   const handleChange = (e) => {
@@ -26,15 +22,15 @@ const SignUp = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const { firstName, lastName, email, address } = formData;
+    const { username, password, email } = formData;
 
-    if (!firstName || !lastName || !email || !address) {
+    if (!username || !password || !email) {
       alert("Please fill in all required fields!");
       return;
     }
 
     try {
-      await axios.post("http://localhost:8080/api/user", formData);
+      await axios.post("http://localhost:8080/api/students", formData);
       alert("Sign Up Successful!");
       navigate("/");
     } catch (error) {
@@ -50,14 +46,15 @@ const SignUp = () => {
           <h1>Sign Up</h1>
 
           {[
-            { name: "firstName", placeholder: "First Name", required: true },
-            { name: "lastName", placeholder: "Last Name", required: true },
-            { name: "email", placeholder: "Email", type: "email", required: true },
-            { name: "address", placeholder: "Address", required: true },
-            { name: "dateOfBirth", placeholder: "Date of Birth", type: "date" },
-            { name: "phoneNumber", placeholder: "Phone Number" },
-            { name: "imageURL", placeholder: "Image URL (optional)", type: "url" },
-          ].map(({ name, placeholder, type = "text", required }) => (
+            { name: "username", placeholder: "username", required: true },
+            { name: "password", placeholder: "password", required: true },
+            {
+              name: "email",
+              placeholder: "Email",
+              type: "email",
+              required: true,
+            },
+          ].map(({ name, placeholder, type = "text", ...rest }) => (
             <div className="input-box" key={name}>
               <input
                 type={type}
@@ -65,13 +62,15 @@ const SignUp = () => {
                 placeholder={placeholder}
                 value={formData[name]}
                 onChange={handleChange}
-                required={required}
+                {...rest}
               />
             </div>
           ))}
 
           <div className="btn-container">
-            <button className="btn" type="submit">Sign Up</button>
+            <button className="btn" type="submit">
+              Sign Up
+            </button>
           </div>
 
           <div className="register-link">
