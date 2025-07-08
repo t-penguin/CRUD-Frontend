@@ -15,11 +15,12 @@ import SingleStudent from "./components/singleStudent";
 import LoginPage from "./components/Login";
 import Signup from "./components/Signup";
 
-const API_URL = "https://crud-backend-black-kappa.vercel.app";
+const API_URL = "http://localhost:8080";
 
 const App = () => {
   const [campuses, setCampuses] = useState([]);
   const [students, setStudents] = useState([]);
+  const [loggedIn, setLoggedIn] = useState(false);
 
   const fetchAllCampuses = async () => {
     try {
@@ -39,14 +40,25 @@ const App = () => {
     }
   };
 
+  const fetchLoginStatus = async () => {
+    try {
+      const response = await axios.get(`${API_URL}/auth/me`, { withCredentials: true });
+      setLoggedIn(!!response.data.user);
+    } catch (e) {
+      console.error("Error retrieving login status:", e);
+      setLoggedIn(false);
+    }
+  };
+
   useEffect(() => {
     fetchAllCampuses();
     fetchAllStudents();
+    fetchLoginStatus();
   }, []);
 
   return (
     <Router>
-      <Navbar />
+      <Navbar API_URL={API_URL} loggedIn={loggedIn} setLoggedIn={setLoggedIn}/>
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/students" element={<AllStudents students={students} />} />
@@ -90,8 +102,14 @@ const App = () => {
             />
           }
         />
-        <Route path="/login" element={<LoginPage API_URL={API_URL} />} />
-        <Route path="/signup" element={<Signup API_URL={API_URL} />} />
+        <Route path="/login" element={
+          <LoginPage API_URL={API_URL} setLoggedIn={setLoggedIn} />
+          } 
+        />
+        <Route path="/signup" element={
+          <Signup API_URL={API_URL} setLoggedIn={setLoggedIn} />
+          } 
+        />
 
         {/* Fallback Route */}
         <Route
