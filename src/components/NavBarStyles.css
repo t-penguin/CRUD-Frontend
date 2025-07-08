@@ -1,17 +1,5 @@
-.navbar-container {
-  display: flex;
-  justify-content: flex-start; 
-  position: fixed;
-  height: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  justify-content: flex-start;
-  gap: 1rem; 
-}
-
 .navbar {
-  background-color: black;
-  justify-content: flex-start;
+  background-color: rgb(184, 22, 122);
   position: fixed;
   top: 0;
   left: 0;
@@ -21,22 +9,21 @@
   padding: 0 1rem;
 }
 
-.navbar-nav {
+.navbar-container {
   display: flex;
+  justify-content: flex-start; /* Align links to the left */
   align-items: center;
-  gap: 1rem;
-  list-style: none;
-  margin: 0;
-  padding: 0;
+  height: 100%;
+  gap: 1rem; /* Space between links */
 }
 
 .nav-link {
-  color: white;
+  color: rgb(0, 0, 0);
   text-decoration: none;
-  font-weight: 1000;
-  font-family: 'Times New Roman', Times, serif;
-  font-size: 3 rem;
-  line-height: 60px;
+  font-weight: 600;
+  font-size: 1rem;
+  font-family: sans-serif;
+  line-height: 60px; /* vertically center text */
 }
 
 .nav-link:hover {
