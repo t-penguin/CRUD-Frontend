@@ -12,6 +12,8 @@ import AddCampus from "./components/AddCampus";
 import SingleCampus from "./components/SingleCampus";
 import AddStudent from "./components/addStudent";
 import SingleStudent from "./components/singleStudent";
+import LoginPage from "./components/Login";
+import Signup from "./components/Signup";
 
 const API_URL = "https://crud-backend-black-kappa.vercel.app";
 
@@ -48,38 +50,54 @@ const App = () => {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/students" element={<AllStudents students={students} />} />
-        <Route path="/students/:studentId" element={<SingleStudent fetchAllStudents={fetchAllStudents} />}
+        <Route
+          path="/students/:studentId"
+          element={<SingleStudent fetchAllStudents={fetchAllStudents} />}
         />
 
-        <Route path="/campuses" element={
-          <AllCampuses 
-            campuses={campuses} 
-            API_URL={API_URL} 
-            fetchAllCampuses={fetchAllCampuses} 
-          />
-        } />
-        <Route path="/campuses/:id" element={
-          <SingleCampus 
-            API_URL={API_URL} 
-            fetchAllCampuses={fetchAllCampuses} 
-          />
-        } />
-        <Route path="/add-campus" element={
-          <AddCampus 
-            API_URL={API_URL} 
-            fetchAllCampuses={fetchAllCampuses} 
-          />
-        } />
-        <Route path="/add-student" element={
-          <AddStudent 
-            students={students} 
-            setStudents={setStudents} 
-            fetchAllStudents={fetchAllStudents} 
-          />
-        } />
+        <Route
+          path="/campuses"
+          element={
+            <AllCampuses
+              campuses={campuses}
+              API_URL={API_URL}
+              fetchAllCampuses={fetchAllCampuses}
+            />
+          }
+        />
+        <Route
+          path="/campuses/:id"
+          element={
+            <SingleCampus
+              API_URL={API_URL}
+              fetchAllCampuses={fetchAllCampuses}
+            />
+          }
+        />
+        <Route
+          path="/add-campus"
+          element={
+            <AddCampus API_URL={API_URL} fetchAllCampuses={fetchAllCampuses} />
+          }
+        />
+        <Route
+          path="/add-student"
+          element={
+            <AddStudent
+              students={students}
+              setStudents={setStudents}
+              fetchAllStudents={fetchAllStudents}
+            />
+          }
+        />
+        <Route path="/login" element={<LoginPage API_URL={API_URL} />} />
+        <Route path="/signup" element={<Signup API_URL={API_URL} />} />
 
         {/* Fallback Route */}
-        <Route path="*" element={<p style={{ padding: "1rem" }}>404: Page Not Found</p>} />
+        <Route
+          path="*"
+          element={<p style={{ padding: "1rem" }}>404: Page Not Found</p>}
+        />
       </Routes>
     </Router>
   );
@@ -92,4 +110,3 @@ root.render(
     <App />
   </React.StrictMode>
 );
-
