@@ -22,9 +22,9 @@ const SignUp = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const { username, password, email } = formData;
+    const { username, password} = formData;
 
-    if (!username || !password || !email) {
+    if (!username || !password) {
       alert("Please fill in all required fields!");
       return;
     }
@@ -48,12 +48,6 @@ const SignUp = () => {
           {[
             { name: "username", placeholder: "username", required: true },
             { name: "password", placeholder: "password", required: true },
-            {
-              name: "email",
-              placeholder: "Email",
-              type: "email",
-              required: true,
-            },
           ].map(({ name, placeholder, type = "text", ...rest }) => (
             <div className="input-box" key={name}>
               <input
